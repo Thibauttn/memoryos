@@ -801,12 +801,13 @@ Règles :
 
         removeTyping(typingId);
 
+        const data = await response.json();
+
         if (!response.ok) {
-          const err = await response.json();
-          throw new Error(err.error || 'Erreur API');
+          const msg = data?.error?.message || data?.error || `Erreur ${response.status}`;
+          throw new Error(typeof msg === 'string' ? msg : JSON.stringify(msg));
         }
 
-        const data = await response.json();
         const reply = data.content?.[0]?.text || "Je n'ai pas trouvé cette information dans votre mémoire.";
 
         chatHistory.push({ role: 'assistant', content: reply });
