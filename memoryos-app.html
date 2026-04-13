@@ -272,7 +272,6 @@
       border-radius: 2px 10px 10px 10px;
     }
     .msg-row.ai .msg-bubble strong { color: var(--gold); }
-    .msg-row.ai .msg-bubble em { color: var(--muted2); font-style: normal; font-size: .82rem; }
 
     .msg-row.ai .msg-bubble .source-chip {
       display: inline-flex; align-items: center; gap: .3rem;
@@ -389,7 +388,6 @@
       padding: 1.2rem;
       cursor: pointer;
       transition: all .2s;
-      position: relative;
     }
     .note-card:hover { border-color: rgba(201,168,76,.3); transform: translateY(-2px); }
 
@@ -412,7 +410,7 @@
       border-radius: 3px;
     }
 
-    /* ─── ADD NOTE MODAL ─── */
+    /* ─── MODAL ─── */
     .modal-overlay {
       position: fixed; inset: 0;
       background: rgba(0,0,0,.7);
@@ -442,10 +440,7 @@
       margin-bottom: 1.5rem;
     }
 
-    .type-tabs {
-      display: flex; gap: .5rem;
-      margin-bottom: 1.2rem;
-    }
+    .type-tabs { display: flex; gap: .5rem; margin-bottom: 1.2rem; }
     .type-tab {
       background: transparent;
       border: 1px solid var(--border2);
@@ -479,103 +474,61 @@
 
     .modal-actions { display: flex; justify-content: flex-end; gap: .7rem; margin-top: 1.5rem; }
 
-    /* ─── STATS VIEW ─── */
-    .stats-view {
-      flex: 1;
-      overflow-y: auto;
-      padding: 2rem 1.8rem;
-    }
+    /* ─── STATS ─── */
+    .stats-view { flex: 1; overflow-y: auto; padding: 2rem 1.8rem; }
 
     .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1rem; margin-bottom: 2rem;
     }
 
     .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      padding: 1.4rem;
+      background: var(--card); border: 1px solid var(--border2);
+      border-radius: 8px; padding: 1.4rem;
     }
     .stat-icon { font-size: 1.5rem; margin-bottom: .7rem; }
-    .stat-val {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      color: var(--gold);
-      font-weight: 700;
-    }
+    .stat-val { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); font-weight: 700; }
     .stat-label { font-size: .8rem; color: var(--muted2); margin-top: .2rem; }
 
     .activity-section { margin-top: 2rem; }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      margin-bottom: 1.2rem;
-    }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 1.2rem; }
 
     .activity-list { display: flex; flex-direction: column; gap: .6rem; }
     .activity-item {
       display: flex; align-items: center; gap: 1rem;
-      background: var(--card);
-      border: 1px solid var(--border2);
-      border-radius: 6px;
-      padding: .9rem 1.1rem;
+      background: var(--card); border: 1px solid var(--border2);
+      border-radius: 6px; padding: .9rem 1.1rem;
     }
-    .activity-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--gold); flex-shrink: 0;
-    }
+    .activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
     .activity-text { font-size: .85rem; color: var(--muted2); }
     .activity-text strong { color: var(--cream); }
     .activity-time { margin-left: auto; font-size: .75rem; color: var(--muted); }
 
-    /* ─── SCROLLBAR ─── */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 4px; }
-
-    /* ─── GRAPH VIEW ─── */
-    .graph-view {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    canvas#graphCanvas {
-      position: absolute; inset: 0;
-    }
-
+    /* ─── GRAPH ─── */
+    .graph-view { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    canvas#graphCanvas { position: absolute; inset: 0; }
     .graph-info {
       position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: .6rem 1.2rem;
-      font-size: .8rem;
-      color: var(--muted2);
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: .6rem 1.2rem;
+      font-size: .8rem; color: var(--muted2);
     }
 
-    /* TOAST */
+    /* ─── TOAST ─── */
     .toast {
       position: fixed; bottom: 2rem; right: 2rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: .9rem 1.3rem;
-      font-size: .85rem;
-      color: var(--cream);
-      z-index: 300;
-      transform: translateY(80px);
-      opacity: 0;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: .9rem 1.3rem;
+      font-size: .85rem; color: var(--cream);
+      z-index: 300; transform: translateY(80px); opacity: 0;
       transition: all .3s;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast .t-icon { color: var(--gold); margin-right: .5rem; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -596,7 +549,7 @@
       </div>
       <div class="nav-item" onclick="switchView('notes', this)">
         <span class="ni-icon">📝</span> Mes notes
-        <span class="ni-badge">247</span>
+        <span class="ni-badge" id="notesBadge">0</span>
       </div>
       <div class="nav-item" onclick="switchView('graph', this)">
         <span class="ni-icon">🕸️</span> Graphe mental
@@ -608,20 +561,20 @@
     <div class="sidebar-nav">
       <div class="nav-label">Types</div>
       <div class="nav-item" onclick="switchView('notes', this); setFilter('lien')">
-        <span class="ni-icon">🔗</span> Liens <span class="ni-badge">89</span>
+        <span class="ni-icon">🔗</span> Liens
       </div>
       <div class="nav-item" onclick="switchView('notes', this); setFilter('audio')">
-        <span class="ni-icon">🎙️</span> Audios <span class="ni-badge">34</span>
+        <span class="ni-icon">🎙️</span> Audios
       </div>
       <div class="nav-item" onclick="switchView('notes', this); setFilter('image')">
-        <span class="ni-icon">📸</span> Images <span class="ni-badge">156</span>
+        <span class="ni-icon">📸</span> Images
       </div>
     </div>
     <div class="sidebar-footer">
       <div class="user-row">
-        <div class="user-avatar">JD</div>
+        <div class="user-avatar">M</div>
         <div>
-          <div class="user-name">Jean Dupont</div>
+          <div class="user-name">Mon compte</div>
           <div class="user-plan">✦ Plan Pro</div>
         </div>
       </div>
@@ -631,7 +584,6 @@
   <!-- MAIN -->
   <main class="main">
 
-    <!-- TOP BAR -->
     <div class="topbar">
       <div class="page-title" id="pageTitle">Chat IA</div>
       <div class="topbar-actions">
@@ -640,12 +592,12 @@
       </div>
     </div>
 
-    <!-- ─── CHAT VIEW ─── -->
+    <!-- CHAT -->
     <div class="view active" id="view-chat">
       <div class="chat-wrap">
         <div class="chat-messages" id="chatMessages">
           <div class="chat-intro" id="chatIntro">
-            <h3>Bonjour, Jean ✦</h3>
+            <h3>Bonjour ✦</h3>
             <p>Posez-moi n'importe quelle question sur votre mémoire. Je retrouverai l'information dans vos notes, audios et liens.</p>
             <div class="suggestions">
               <div class="suggestion" onclick="askSuggestion(this)">Qu'est-ce que j'ai capturé cette semaine ?</div>
@@ -665,7 +617,7 @@
       </div>
     </div>
 
-    <!-- ─── NOTES VIEW ─── -->
+    <!-- NOTES -->
     <div class="view" id="view-notes">
       <div class="notes-view">
         <div class="notes-toolbar">
@@ -679,66 +631,46 @@
       </div>
     </div>
 
-    <!-- ─── GRAPH VIEW ─── -->
+    <!-- GRAPH -->
     <div class="view" id="view-graph">
       <div class="graph-view">
         <canvas id="graphCanvas"></canvas>
-        <div class="graph-info">💡 Le graphe visualise les connexions entre vos idées — cliquez sur un nœud pour explorer</div>
+        <div class="graph-info">💡 Connexions entre vos idées — cliquez sur un nœud pour explorer</div>
       </div>
     </div>
 
-    <!-- ─── STATS VIEW ─── -->
+    <!-- STATS -->
     <div class="view" id="view-stats">
       <div class="stats-view">
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-icon">🧠</div>
-            <div class="stat-val">247</div>
+            <div class="stat-val" id="statNotes">0</div>
             <div class="stat-label">Notes en mémoire</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">💬</div>
-            <div class="stat-val">1,2k</div>
+            <div class="stat-val" id="statQuestions">0</div>
             <div class="stat-label">Questions posées</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">🔗</div>
-            <div class="stat-val">89</div>
-            <div class="stat-label">Connexions créées</div>
+            <div class="stat-val" id="statLiens">0</div>
+            <div class="stat-label">Liens capturés</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">⚡</div>
-            <div class="stat-val">4.2h</div>
-            <div class="stat-label">Temps économisé</div>
+            <div class="stat-val">IA</div>
+            <div class="stat-label">Connectée et active</div>
           </div>
         </div>
         <div class="activity-section">
           <div class="section-title">Activité récente</div>
-          <div class="activity-list">
+          <div class="activity-list" id="activityList">
             <div class="activity-item">
               <div class="activity-dot"></div>
-              <div class="activity-text"><strong>Note ajoutée</strong> — Idées pour le pivot B2B</div>
-              <div class="activity-time">Il y a 2h</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot"></div>
-              <div class="activity-text"><strong>Question posée</strong> — "Que sais-je sur mon projet ?"</div>
-              <div class="activity-time">Il y a 5h</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot"></div>
-              <div class="activity-text"><strong>Lien capturé</strong> — techcrunch.com/ai-tools-2026</div>
-              <div class="activity-time">Hier</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot"></div>
-              <div class="activity-text"><strong>Audio transcrit</strong> — Réflexion sur le pricing</div>
-              <div class="activity-time">Hier</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot"></div>
-              <div class="activity-text"><strong>Connexion détectée</strong> — Note "pricing" ↔ "compétiteurs"</div>
-              <div class="activity-time">Il y a 2j</div>
+              <div class="activity-text"><strong>MemoryOS activé</strong> — IA connectée et prête</div>
+              <div class="activity-time">Maintenant</div>
             </div>
           </div>
         </div>
@@ -747,7 +679,7 @@
 
   </main>
 
-  <!-- MODAL AJOUT NOTE -->
+  <!-- MODAL -->
   <div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
     <div class="modal">
       <h3>✦ Ajouter à ma mémoire</h3>
@@ -762,7 +694,7 @@
         <input type="text" class="form-input" id="noteTitle" placeholder="Titre de votre note..."/>
       </div>
       <div class="form-group" id="contentGroup">
-        <label class="form-label">Contenu</label>
+        <label class="form-label" id="contentLabel">Contenu</label>
         <textarea class="form-input" id="noteContent" placeholder="Écrivez votre note ici..."></textarea>
       </div>
       <div class="form-group">
@@ -776,35 +708,16 @@
     </div>
   </div>
 
-  <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
   <script>
     // ─── STATE ───
-    const SYSTEM_PROMPT = `Tu es MemoryOS, un assistant IA qui aide l'utilisateur à retrouver et connecter ses souvenirs, notes et idées. 
-L'utilisateur a les notes suivantes en mémoire :
-${getNotesContext()}
-Réponds en français. Sois précis, cite les sources (dates, titres de notes) entre balises **source**. Sois concis mais utile.`;
-
-    let currentType = 'note';
-    let currentFilter = 'tout';
+    let notes = [];
     let chatHistory = [];
     let isLoading = false;
-
-    let notes = [
-      { id: 1, type: 'note', title: 'Idées pour le pivot B2B', content: 'Cibler les PME de 10-50 personnes. Les freelances coûtent cher à acquérir. B2B = meilleur LTV.', tags: ['projet', 'stratégie'], date: '13 avr. 2026' },
-      { id: 2, type: 'lien', title: 'Mem.ai — concurrent direct', content: 'https://mem.ai — Fonctionnalités similaires. Tarif : 14$/mois. Point faible : pas de support multimédia.', tags: ['compétiteurs', 'IA'], date: '10 avr. 2026' },
-      { id: 3, type: 'audio', title: 'Réflexion pricing (22 jan)', content: 'Transcription : "Je pense à un freemium à 9€/mois avec 50MB gratuit. Hésitation sur le plan annuel à -40%."', tags: ['pricing', 'business'], date: '22 jan. 2026' },
-      { id: 4, type: 'note', title: 'Décisions prises en janvier', content: 'Pivot B2B décidé le 14 janvier. 3 concurrents à surveiller : Notion, Mem.ai, Reflect. Budget dev : 150€.', tags: ['décisions', 'projet'], date: '14 jan. 2026' },
-      { id: 5, type: 'lien', title: 'Product Hunt — stratégie lancement', content: 'https://producthunt.com/discussions/launch — Conseils : lancer un mardi, préparer 50 hunters, teaser 2 semaines avant.', tags: ['marketing', 'lancement'], date: '8 avr. 2026' },
-      { id: 6, type: 'note', title: 'Plan marketing semaine 1', content: 'LinkedIn : 1 post/jour. TikTok : 3 vidéos build-in-public. Reddit : seeding r/productivity et r/Notion.', tags: ['marketing', 'plan'], date: '5 avr. 2026' },
-      { id: 7, type: 'image', title: 'Capture wireframe app', content: 'Screenshot du wireframe Figma — version mobile de l\'app. Fonctionnalité chat confirmée.', tags: ['design', 'app'], date: '3 avr. 2026' },
-      { id: 8, type: 'audio', title: 'Call avec investisseur potentiel', content: 'Transcription : "Il est intéressé mais veut voir 500 inscrits en waitlist avant de s\'engager."', tags: ['investissement', 'business'], date: '1 avr. 2026' },
-    ];
-
-    function getNotesContext() {
-      return notes.map(n => `- [${n.date}] ${n.title} (${n.type}) : ${n.content} | Tags: ${n.tags.join(', ')}`).join('\n');
-    }
+    let questionCount = 0;
+    let currentType = 'note';
+    let currentFilter = 'tout';
 
     // ─── NAVIGATION ───
     function switchView(view, el) {
@@ -816,6 +729,7 @@ Réponds en français. Sois précis, cite les sources (dates, titres de notes) e
       document.getElementById('pageTitle').textContent = titles[view] || view;
       if (view === 'notes') renderNotes();
       if (view === 'graph') drawGraph();
+      if (view === 'stats') updateStats();
     }
 
     // ─── CHAT ───
@@ -833,13 +747,30 @@ Réponds en français. Sois précis, cite les sources (dates, titres de notes) e
       sendMessage();
     }
 
+    function buildSystemPrompt() {
+      const notesContext = notes.length > 0
+        ? notes.map(n => `- [${n.date}] ${n.title} (${n.type}) : ${n.content} | Tags: ${n.tags.join(', ')}`).join('\n')
+        : 'Aucune note enregistrée pour le moment.';
+
+      return `Tu es MemoryOS, un assistant IA personnel qui aide l'utilisateur à retrouver et connecter ses notes, idées et souvenirs.
+
+Voici la mémoire de l'utilisateur :
+${notesContext}
+
+Règles :
+- Réponds toujours en français
+- Cite les sources précises (date + titre de note) quand tu t'appuies sur une note
+- Mets les citations entre chevrons : <source: Titre de la note (date)>
+- Si aucune note ne correspond, dis-le honnêtement et propose d'en ajouter une
+- Sois utile, précis et concis`;
+    }
+
     async function sendMessage() {
       if (isLoading) return;
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
       if (!text) return;
 
-      // Hide intro
       const intro = document.getElementById('chatIntro');
       if (intro) intro.style.display = 'none';
 
@@ -848,6 +779,7 @@ Réponds en français. Sois précis, cite les sources (dates, titres de notes) e
 
       appendMessage('user', text);
       chatHistory.push({ role: 'user', content: text });
+      questionCount++;
 
       isLoading = true;
       document.getElementById('sendBtn').disabled = true;
@@ -855,32 +787,35 @@ Réponds en français. Sois précis, cite les sources (dates, titres de notes) e
       const typingId = showTyping();
 
       try {
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
+        // ✅ Appel vers /api/chat (fonction serverless Vercel) — la clé API reste côté serveur
+        const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             model: 'claude-sonnet-4-20250514',
             max_tokens: 1000,
-            system: `Tu es MemoryOS, un assistant IA personnel qui aide l'utilisateur à retrouver ses notes et idées. 
-Voici la mémoire de l'utilisateur :
-${notes.map(n => `- [${n.date}] ${n.title} (${n.type}) : ${n.content} | Tags: ${n.tags.join(', ')}`).join('\n')}
-
-Réponds toujours en français. Cite les sources précises (date + titre de note). Sois utile et concis. Quand tu cites une source, mets-la entre chevrons comme: <source: Titre de la note (date)>.`,
+            system: buildSystemPrompt(),
             messages: chatHistory
           })
         });
 
         removeTyping(typingId);
 
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.error || 'Erreur API');
+        }
+
         const data = await response.json();
-        const reply = data.content?.[0]?.text || "Je n'ai pas pu trouver cette information dans votre mémoire.";
+        const reply = data.content?.[0]?.text || "Je n'ai pas trouvé cette information dans votre mémoire.";
 
         chatHistory.push({ role: 'assistant', content: reply });
         appendMessage('ai', reply);
+        addActivity(`Question posée — "${text.substring(0, 40)}${text.length > 40 ? '…' : ''}"`);
 
       } catch (err) {
         removeTyping(typingId);
-        appendMessage('ai', '⚠️ Impossible de se connecter à l\'IA. Vérifiez votre connexion.');
+        appendMessage('ai', `⚠️ ${err.message || 'Impossible de joindre l\'IA. Vérifie ta clé API dans Vercel.'}`);
       }
 
       isLoading = false;
@@ -894,12 +829,11 @@ Réponds toujours en français. Cite les sources précises (date + titre de note
 
       const avatar = document.createElement('div');
       avatar.className = `msg-avatar ${role === 'ai' ? 'ai' : 'user-av'}`;
-      avatar.textContent = role === 'ai' ? 'M' : 'JD';
+      avatar.textContent = role === 'ai' ? 'M' : 'Toi';
 
       const bubble = document.createElement('div');
       bubble.className = 'msg-bubble';
 
-      // Format text
       let formatted = text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/<source:(.*?)>/g, '<span class="source-chip">📎$1</span>')
@@ -933,6 +867,14 @@ Réponds toujours en français. Cite les sources précises (date + titre de note
     function renderNotes() {
       const grid = document.getElementById('notesGrid');
       const filtered = currentFilter === 'tout' ? notes : notes.filter(n => n.type === currentFilter);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--muted);">
+          Aucune note pour le moment.<br>Clique sur <strong style="color:var(--gold)">+ Ajouter</strong> pour commencer.
+        </div>`;
+        return;
+      }
+
       grid.innerHTML = filtered.map(n => `
         <div class="note-card">
           <div class="note-type">${typeIcon(n.type)} ${n.type}</div>
@@ -966,15 +908,15 @@ Réponds toujours en français. Cite les sources précises (date + titre de note
       currentType = t;
       document.querySelectorAll('.type-tab').forEach(b => b.classList.remove('active'));
       el.classList.add('active');
-      const label = { note: 'Contenu', lien: 'URL', audio: 'Transcription / description', image: 'Description' }[t];
-      document.querySelector('#contentGroup .form-label').textContent = label;
+      const labels = { note: 'Contenu', lien: 'URL', audio: 'Transcription / description', image: 'Description' };
+      document.getElementById('contentLabel').textContent = labels[t];
     }
 
     function saveNote() {
       const title = document.getElementById('noteTitle').value.trim();
       const content = document.getElementById('noteContent').value.trim();
       const tags = document.getElementById('noteTags').value.split(',').map(t => t.trim()).filter(Boolean);
-      if (!title) { showToast('⚠️ Ajoutez un titre'); return; }
+      if (!title) { showToast('⚠️ Ajoute un titre'); return; }
       const now = new Date();
       const date = now.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
       notes.unshift({ id: Date.now(), type: currentType, title, content: content || '(sans contenu)', tags, date });
@@ -982,8 +924,30 @@ Réponds toujours en français. Cite les sources précises (date + titre de note
       document.getElementById('noteTitle').value = '';
       document.getElementById('noteContent').value = '';
       document.getElementById('noteTags').value = '';
+      document.getElementById('notesBadge').textContent = notes.length;
       showToast('✦ Note ajoutée à votre mémoire');
+      addActivity(`Note ajoutée — "${title}"`);
       if (document.getElementById('view-notes').classList.contains('active')) renderNotes();
+    }
+
+    // ─── STATS ───
+    function updateStats() {
+      document.getElementById('statNotes').textContent = notes.length;
+      document.getElementById('statQuestions').textContent = questionCount;
+      document.getElementById('statLiens').textContent = notes.filter(n => n.type === 'lien').length;
+    }
+
+    function addActivity(text) {
+      const list = document.getElementById('activityList');
+      const item = document.createElement('div');
+      item.className = 'activity-item';
+      item.innerHTML = `
+        <div class="activity-dot"></div>
+        <div class="activity-text"><strong>${text}</strong></div>
+        <div class="activity-time">À l'instant</div>
+      `;
+      list.insertBefore(item, list.firstChild);
+      if (list.children.length > 10) list.removeChild(list.lastChild);
     }
 
     // ─── GRAPH ───
@@ -995,36 +959,40 @@ Réponds toujours en français. Cite les sources précises (date + titre de note
       const ctx = canvas.getContext('2d');
       const W = canvas.width, H = canvas.height;
 
-      const nodeData = [
-        { label: 'Projet B2B', x: W*.5, y: H*.4, r: 22, color: '#c9a84c' },
-        { label: 'Pricing', x: W*.35, y: H*.3, r: 16, color: '#8b9bca' },
-        { label: 'Marketing', x: W*.65, y: H*.3, r: 18, color: '#8bca9b' },
-        { label: 'Compétiteurs', x: W*.3, y: H*.55, r: 14, color: '#ca8b8b' },
-        { label: 'Design', x: W*.7, y: H*.55, r: 14, color: '#ca9b8b' },
-        { label: 'Investissement', x: W*.5, y: H*.65, r: 14, color: '#b08bca' },
-        { label: 'Product Hunt', x: W*.8, y: H*.42, r: 12, color: '#8bcac9' },
-        { label: 'Notion', x: W*.2, y: H*.42, r: 12, color: '#ca8bb0' },
-      ];
+      const nodeData = notes.length > 0
+        ? notes.slice(0, 8).map((n, i) => {
+            const angle = (i / Math.min(notes.length, 8)) * Math.PI * 2;
+            const r = Math.min(W, H) * 0.28;
+            return {
+              label: n.title.substring(0, 20),
+              x: W/2 + Math.cos(angle) * r,
+              y: H/2 + Math.sin(angle) * r,
+              r: 14,
+              color: ['#c9a84c','#8b9bca','#8bca9b','#ca8b8b','#ca9b8b','#b08bca','#8bcac9','#ca8bb0'][i % 8]
+            };
+          })
+        : [
+            { label: 'Vos idées', x: W*.5, y: H*.4, r: 22, color: '#c9a84c' },
+            { label: 'Projets', x: W*.35, y: H*.3, r: 16, color: '#8b9bca' },
+            { label: 'Notes', x: W*.65, y: H*.3, r: 18, color: '#8bca9b' },
+          ];
 
-      const edges = [
-        [0,1],[0,2],[0,3],[0,5],[1,3],[2,6],[2,4],[0,7],[0,6]
-      ];
+      ctx.clearRect(0, 0, W, H);
 
-      ctx.clearRect(0,0,W,H);
+      if (nodeData.length > 1) {
+        for (let i = 0; i < nodeData.length; i++) {
+          for (let j = i+1; j < nodeData.length; j++) {
+            ctx.beginPath();
+            ctx.moveTo(nodeData[i].x, nodeData[i].y);
+            ctx.lineTo(nodeData[j].x, nodeData[j].y);
+            ctx.strokeStyle = 'rgba(201,168,76,0.1)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
 
-      // draw edges
-      edges.forEach(([a,b]) => {
-        ctx.beginPath();
-        ctx.moveTo(nodeData[a].x, nodeData[a].y);
-        ctx.lineTo(nodeData[b].x, nodeData[b].y);
-        ctx.strokeStyle = 'rgba(201,168,76,0.15)';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-      });
-
-      // draw nodes
       nodeData.forEach(n => {
-        // glow
         const grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r*2.5);
         grd.addColorStop(0, n.color + '22');
         grd.addColorStop(1, 'transparent');
@@ -1033,7 +1001,6 @@ Réponds toujours en français. Cite les sources précises (date + titre de note
         ctx.fillStyle = grd;
         ctx.fill();
 
-        // circle
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
         ctx.fillStyle = n.color + '30';
@@ -1042,9 +1009,8 @@ Réponds toujours en français. Cite les sources précises (date + titre de note
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // label
         ctx.fillStyle = '#f0ece2';
-        ctx.font = '12px DM Sans, sans-serif';
+        ctx.font = '11px DM Sans, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText(n.label, n.x, n.y + n.r + 16);
       });
