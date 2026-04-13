@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MemoryOS — Votre second cerveau, augmenté par l'IA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #0a0a0f;
+      --cream: #f5f0e8;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --muted: #6b6b7a;
+      --card: #13131a;
+      --border: rgba(201,168,76,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* NOISE TEXTURE */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: .4;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 5%;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(14px);
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--gold);
+      letter-spacing: .03em;
+    }
+
+    .logo span { color: var(--cream); }
+
+    nav ul { display: flex; gap: 2.5rem; list-style: none; }
+    nav ul a { color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 400; transition: color .2s; }
+    nav ul a:hover { color: var(--cream); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--ink) !important;
+      padding: .55rem 1.4rem;
+      border-radius: 2px;
+      font-weight: 500 !important;
+      transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--gold-light) !important; color: var(--ink) !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 5% 4rem;
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: .4rem 1rem;
+      font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2.5rem;
+      animation: fadeUp .8s ease both;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .4; transform: scale(1.4); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      max-width: 900px;
+      margin-bottom: 1.8rem;
+      animation: fadeUp .8s .1s ease both;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      animation: fadeUp .8s .2s ease both;
+    }
+
+    .hero-form {
+      display: flex; gap: .8rem;
+      animation: fadeUp .8s .3s ease both;
+    }
+
+    .hero-form input {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      padding: .9rem 1.4rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      width: 300px;
+      outline: none;
+      border-radius: 2px;
+      transition: border-color .2s;
+    }
+
+    .hero-form input::placeholder { color: var(--muted); }
+    .hero-form input:focus { border-color: var(--gold); }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      padding: .9rem 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background .2s, transform .15s;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .hero-note {
+      margin-top: 1.2rem;
+      font-size: .78rem;
+      color: var(--muted);
+      animation: fadeUp .8s .4s ease both;
+    }
+
+    /* MOCKUP */
+    .mockup-wrap {
+      width: 100%;
+      max-width: 900px;
+      margin: 5rem auto 0;
+      padding: 0 5%;
+      animation: fadeUp .9s .5s ease both;
+      position: relative;
+    }
+
+    .mockup {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 60px rgba(201,168,76,0.06);
+    }
+
+    .mockup-bar {
+      background: #1a1a24;
+      padding: .8rem 1.2rem;
+      display: flex; align-items: center; gap: .5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #ff5f57; }
+    .dot.y { background: #febc2e; }
+    .dot.g { background: #28c840; }
+
+    .mockup-body {
+      display: grid; grid-template-columns: 240px 1fr;
+      height: 400px;
+    }
+
+    .mock-sidebar {
+      border-right: 1px solid var(--border);
+      padding: 1.2rem;
+    }
+
+    .mock-label {
+      font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1rem;
+    }
+
+    .mock-item {
+      padding: .55rem .8rem;
+      border-radius: 4px;
+      font-size: .82rem;
+      color: var(--muted);
+      margin-bottom: .3rem;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex; align-items: center; gap: .6rem;
+    }
+
+    .mock-item.active { background: rgba(201,168,76,.12); color: var(--gold); }
+    .mock-item:hover:not(.active) { background: rgba(255,255,255,.04); color: var(--cream); }
+
+    .mock-icon { font-size: 1rem; }
+
+    .mock-main {
+      padding: 1.5rem;
+      display: flex; flex-direction: column;
+    }
+
+    .mock-chat {
+      flex: 1;
+      display: flex; flex-direction: column; gap: 1rem;
+      overflow: hidden;
+    }
+
+    .msg {
+      max-width: 75%;
+      padding: .8rem 1.1rem;
+      border-radius: 6px;
+      font-size: .84rem;
+      line-height: 1.5;
+    }
+
+    .msg.user {
+      background: rgba(201,168,76,.15);
+      border: 1px solid rgba(201,168,76,.2);
+      color: var(--cream);
+      align-self: flex-end;
+    }
+
+    .msg.ai {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.07);
+      color: #c0bfc8;
+      align-self: flex-start;
+    }
+
+    .msg.ai strong { color: var(--gold); }
+
+    .mock-input-row {
+      display: flex; gap: .6rem; margin-top: 1rem;
+    }
+
+    .mock-inp {
+      flex: 1;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: .6rem 1rem;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .mock-send {
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      padding: .6rem 1rem;
+      border-radius: 4px;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* SECTIONS */
+    section { padding: 7rem 5%; position: relative; z-index: 1; }
+
+    .section-label {
+      font-size: .72rem; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      max-width: 700px;
+    }
+
+    h2 em { font-style: italic; color: var(--gold); }
+
+    /* PROBLEM */
+    .problem {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      align-items: center;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .problem-text { }
+    .problem-text p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-top: 1.5rem;
+      font-weight: 300;
+    }
+
+    .chaos-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .8rem;
+    }
+
+    .chaos-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.2rem;
+      font-size: .85rem;
+    }
+
+    .chaos-item .ci-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+    .chaos-item .ci-label { color: var(--muted); font-size: .78rem; margin-bottom: .3rem; }
+    .chaos-item .ci-val { color: var(--cream); font-weight: 500; }
+    .chaos-item.lost { border-color: rgba(255,80,80,.2); }
+    .chaos-item.lost .ci-val { color: #ff8080; }
+
+    /* FEATURES */
+    .features { max-width: 1100px; margin: 0 auto; text-align: center; }
+    .features h2 { margin: 0 auto 3.5rem; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .feat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem 1.6rem;
+      text-align: left;
+      transition: border-color .3s, transform .3s;
+    }
+
+    .feat-card:hover {
+      border-color: rgba(201,168,76,.4);
+      transform: translateY(-4px);
+    }
+
+    .feat-icon {
+      font-size: 2rem; margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .feat-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      margin-bottom: .7rem;
+    }
+
+    .feat-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+
+    /* PRICING */
+    .pricing { max-width: 900px; margin: 0 auto; text-align: center; }
+    .pricing h2 { margin: 0 auto 3.5rem; }
+
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+    .price-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2.5rem 2rem;
+      text-align: left;
+    }
+
+    .price-card.featured {
+      border-color: var(--gold);
+      position: relative;
+    }
+
+    .price-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--ink);
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      padding: .3rem 1rem; border-radius: 20px;
+    }
+
+    .price-name { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .8rem; }
+    .price-amount { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--cream); }
+    .price-amount span { font-size: 1rem; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 300; }
+    .price-desc { color: var(--muted); font-size: .9rem; margin: .8rem 0 1.5rem; }
+
+    .price-features { list-style: none; }
+    .price-features li {
+      font-size: .88rem; color: #a0a0b0;
+      padding: .5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      display: flex; align-items: center; gap: .7rem;
+    }
+    .price-features li::before { content: '✦'; color: var(--gold); font-size: .6rem; }
+
+    .btn-outline {
+      display: inline-block;
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      color: var(--cream);
+      padding: .85rem 2rem;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      cursor: pointer;
+      background: transparent;
+      transition: all .2s;
+      width: 100%;
+      text-align: center;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .btn-primary-full {
+      display: inline-block;
+      margin-top: 2rem;
+      background: var(--gold);
+      color: var(--ink);
+      padding: .85rem 2rem;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all .2s;
+      width: 100%;
+      text-align: center;
+    }
+    .btn-primary-full:hover { background: var(--gold-light); }
+
+    /* SOCIAL PROOF */
+    .testimonials { max-width: 1100px; margin: 0 auto; }
+    .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+
+    .test-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.8rem;
+    }
+
+    .test-stars { color: var(--gold); font-size: .9rem; margin-bottom: 1rem; }
+    .test-text { color: #a0a0b0; font-size: .9rem; line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; }
+    .test-author { display: flex; align-items: center; gap: .8rem; }
+    .test-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), #8b6914); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .85rem; color: var(--ink); }
+    .test-name { font-size: .88rem; font-weight: 500; }
+    .test-role { font-size: .75rem; color: var(--muted); }
+
+    /* CTA FINAL */
+    .cta-section {
+      text-align: center;
+      padding: 8rem 5%;
+      position: relative;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-section h2 { margin: 0 auto 1.5rem; text-align: center; }
+    .cta-section p { color: var(--muted); max-width: 500px; margin: 0 auto 3rem; font-size: 1.05rem; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    footer p { font-size: .82rem; color: var(--muted); }
+
+    /* DIVIDER */
+    .divider {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin: 2rem 0;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* COUNTER */
+    .counter-row {
+      display: flex; gap: 4rem;
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+    .counter-item { }
+    .counter-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; font-weight: 900;
+      color: var(--gold); display: block;
+    }
+    .counter-label { font-size: .82rem; color: var(--muted); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      h1 { font-size: 2.4rem; }
+      .hero-form { flex-direction: column; }
+      .hero-form input { width: 100%; }
+      .problem { grid-template-columns: 1fr; gap: 3rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .test-grid { grid-template-columns: 1fr; }
+      .counter-row { flex-wrap: wrap; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Memory<span>OS</span></div>
+    <ul>
+      <li><a href="#features">Fonctionnalités</a></li>
+      <li><a href="#pricing">Tarifs</a></li>
+      <li><a href="#testimonials">Avis</a></li>
+      <li><a href="#waitlist" class="nav-cta">Accès anticipé</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="eyebrow">✦ Intelligence mémorielle — Bêta 2026</div>
+    <h1>Votre cerveau<br/>mérite un <em>upgrade</em></h1>
+    <p class="hero-sub">Déposez vos notes, audios, liens et idées. MemoryOS les organise, les connecte et vous répond — comme si votre cerveau avait une mémoire parfaite.</p>
+    <div class="hero-form" id="waitlist">
+      <input type="email" id="emailInput" placeholder="votre@email.com"/>
+      <button class="btn-primary" onclick="joinWaitlist()">Rejoindre la liste d'attente</button>
+    </div>
+    <p class="hero-note" id="hero-note">🔒 Gratuit • Pas de spam • Accès anticipé garanti</p>
+
+    <div class="mockup-wrap">
+      <div class="mockup">
+        <div class="mockup-bar">
+          <div class="dot r"></div>
+          <div class="dot y"></div>
+          <div class="dot g"></div>
+        </div>
+        <div class="mockup-body">
+          <div class="mock-sidebar">
+            <div class="mock-label">Ma mémoire</div>
+            <div class="mock-item active"><span class="mock-icon">💬</span> Chat IA</div>
+            <div class="mock-item"><span class="mock-icon">📝</span> Notes (247)</div>
+            <div class="mock-item"><span class="mock-icon">🔗</span> Liens (89)</div>
+            <div class="mock-item"><span class="mock-icon">🎙️</span> Audios (34)</div>
+            <div class="mock-item"><span class="mock-icon">📸</span> Images (156)</div>
+            <div class="mock-item"><span class="mock-icon">📊</span> Graphe mental</div>
+          </div>
+          <div class="mock-main">
+            <div class="mock-chat">
+              <div class="msg user">Qu'est-ce que j'avais décidé pour mon projet en janvier ?</div>
+              <div class="msg ai">D'après tes notes du <strong>14 janvier</strong>, tu avais décidé de pivoter vers le B2B et de cibler les PME de 10-50 personnes. Tu avais aussi noté 3 concurrents à surveiller : Notion, Mem.ai et Reflect.</div>
+              <div class="msg user">Et mes réflexions sur le pricing ?</div>
+              <div class="msg ai">Dans ton audio du <strong>22 janvier</strong>, tu mentionnes un freemium à 9€/mois, avec une limite à 50MB gratuit. Tu semblais hésiter sur un plan annuel à -40%.</div>
+            </div>
+            <div class="mock-input-row">
+              <div class="mock-inp">Posez une question sur votre mémoire...</div>
+              <button class="mock-send">→</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section>
+    <div class="problem reveal">
+      <div class="problem-text">
+        <div class="section-label">Le problème</div>
+        <h2>Votre connaissance est <em>éparpillée</em> et morte</h2>
+        <div class="divider"></div>
+        <p>Vous capturez des centaines d'idées chaque mois dans des dizaines d'endroits différents. Mais vous ne les retrouvez jamais. Votre connaissance ne travaille pas pour vous.</p>
+        <div class="counter-row">
+          <div class="counter-item">
+            <span class="counter-num">73%</span>
+            <span class="counter-label">des notes ne sont jamais relues</span>
+          </div>
+          <div class="counter-item">
+            <span class="counter-num">4h</span>
+            <span class="counter-label">perdues par semaine à chercher</span>
+          </div>
+          <div class="counter-item">
+            <span class="counter-num">0</span>
+            <span class="counter-label">connexions créées automatiquement</span>
+          </div>
+        </div>
+      </div>
+      <div class="chaos-grid">
+        <div class="chaos-item lost">
+          <div class="ci-icon">📱</div>
+          <div class="ci-label">Notes iPhone</div>
+          <div class="ci-val">Perdue</div>
+        </div>
+        <div class="chaos-item lost">
+          <div class="ci-icon">📒</div>
+          <div class="ci-label">Notion</div>
+          <div class="ci-val">Jamais relue</div>
+        </div>
+        <div class="chaos-item lost">
+          <div class="ci-icon">🎙️</div>
+          <div class="ci-label">Mémo vocal</div>
+          <div class="ci-val">Oubliée</div>
+        </div>
+        <div class="chaos-item lost">
+          <div class="ci-icon">🌐</div>
+          <div class="ci-label">Bookmarks</div>
+          <div class="ci-val">Introuvable</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="features reveal">
+      <div class="section-label" style="margin:0 auto .8rem">Fonctionnalités</div>
+      <h2>Tout ce dont votre<br/><em>mémoire a besoin</em></h2>
+      <div class="features-grid" style="margin-top:3.5rem">
+        <div class="feat-card">
+          <span class="feat-icon">🧠</span>
+          <h3>Capture universelle</h3>
+          <p>Texte, audio, lien, image, PDF. MemoryOS accepte tout et transcrit automatiquement vos mémos vocaux.</p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">💬</span>
+          <h3>Chat sur votre mémoire</h3>
+          <p>Posez des questions en langage naturel. L'IA répond avec vos propres données, citées avec précision.</p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🔗</span>
+          <h3>Connexions automatiques</h3>
+          <p>L'IA détecte les liens entre vos idées et crée un graphe de connaissance qui évolue avec vous.</p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">⚡</span>
+          <h3>Rappels intelligents</h3>
+          <p>MemoryOS remonte automatiquement les informations pertinentes au bon moment, sans que vous le demandiez.</p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🔒</span>
+          <h3>Chiffrement total</h3>
+          <p>Vos données vous appartiennent. Chiffrement de bout en bout, zéro accès tiers, hébergement EU.</p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🔌</span>
+          <h3>Intégrations natives</h3>
+          <p>Notion, Obsidian, Chrome, Slack. Importez en un clic l'existant et synchronisez en temps réel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="testimonials reveal">
+      <div class="section-label">Ils l'utilisent déjà</div>
+      <h2>Ce que disent nos<br/><em>bêta-testeurs</em></h2>
+      <div class="test-grid">
+        <div class="test-card">
+          <div class="test-stars">★★★★★</div>
+          <p class="test-text">"J'ai retrouvé une décision stratégique que j'avais prise il y a 8 mois. En 3 secondes. C'est magique."</p>
+          <div class="test-author">
+            <div class="test-avatar">JM</div>
+            <div>
+              <div class="test-name">Jean-Marc Tellier</div>
+              <div class="test-role">CEO, SaaS B2B</div>
+            </div>
+          </div>
+        </div>
+        <div class="test-card">
+          <div class="test-stars">★★★★★</div>
+          <p class="test-text">"J'ai essayé Notion, Obsidian, Roam. MemoryOS est le premier outil que j'utilise vraiment tous les jours."</p>
+          <div class="test-author">
+            <div class="test-avatar">SL</div>
+            <div>
+              <div class="test-name">Sophie Laurent</div>
+              <div class="test-role">Consultante & Auteure</div>
+            </div>
+          </div>
+        </div>
+        <div class="test-card">
+          <div class="test-stars">★★★★★</div>
+          <p class="test-text">"Mon équipe perd 4h/semaine à chercher des infos. MemoryOS a divisé ce temps par 6 dès le premier mois."</p>
+          <div class="test-author">
+            <div class="test-avatar">AK</div>
+            <div>
+              <div class="test-name">Alexis Kowalski</div>
+              <div class="test-role">Head of Product, Scale-up</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="pricing reveal">
+      <div class="section-label" style="margin:0 auto .8rem">Tarifs</div>
+      <h2>Simple, transparent,<br/><em>sans surprise</em></h2>
+      <div class="pricing-grid" style="margin-top:3.5rem">
+        <div class="price-card">
+          <div class="price-name">Gratuit</div>
+          <div class="price-amount">0€ <span>/ pour toujours</span></div>
+          <p class="price-desc">Pour découvrir et tester MemoryOS sans engagement.</p>
+          <ul class="price-features">
+            <li>50 MB de mémoire</li>
+            <li>100 requêtes IA / mois</li>
+            <li>Texte & liens</li>
+            <li>1 appareil</li>
+          </ul>
+          <button class="btn-outline" onclick="joinWaitlist()">Commencer gratuitement</button>
+        </div>
+        <div class="price-card featured">
+          <div class="price-badge">Le plus populaire</div>
+          <div class="price-name">Pro</div>
+          <div class="price-amount">9€ <span>/ mois</span></div>
+          <p class="price-desc">Pour les individus qui veulent une mémoire sans limite.</p>
+          <ul class="price-features">
+            <li>Mémoire illimitée</li>
+            <li>Requêtes IA illimitées</li>
+            <li>Audio, images, PDFs</li>
+            <li>Tous les appareils</li>
+            <li>Intégrations (Notion, Slack…)</li>
+            <li>Graphe mental avancé</li>
+          </ul>
+          <button class="btn-primary-full" onclick="joinWaitlist()">Accès anticipé — 50% off</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-section reveal">
+    <div class="section-label">Rejoignez-nous</div>
+    <h2>Votre mémoire vous<br/><em>attend</em></h2>
+    <p>Plus de 1 200 personnes ont déjà rejoint la liste d'attente. Les premiers accès seront limités.</p>
+    <div class="hero-form" style="justify-content:center">
+      <input type="email" id="emailInput2" placeholder="votre@email.com"/>
+      <button class="btn-primary" onclick="joinWaitlist2()">Réserver ma place</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo">Memory<span>OS</span></div>
+    <p>© 2026 MemoryOS — Tous droits réservés</p>
+    <p style="font-size:.78rem;color:var(--muted)">Confidentialité · CGU · Contact</p>
+  </footer>
+
+  <script>
+    // SCROLL REVEAL
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => observer.observe(r));
+
+    // WAITLIST
+    function joinWaitlist() {
+      const email = document.getElementById('emailInput').value;
+      if (!email || !email.includes('@')) {
+        document.getElementById('emailInput').style.borderColor = '#ff6060';
+        return;
+      }
+      document.getElementById('emailInput').style.borderColor = '#28c840';
+      document.getElementById('hero-note').innerHTML = '🎉 Vous êtes sur la liste ! On vous contacte très vite.';
+      document.getElementById('hero-note').style.color = '#28c840';
+    }
+
+    function joinWaitlist2() {
+      const email = document.getElementById('emailInput2').value;
+      if (!email || !email.includes('@')) return;
+      alert('🎉 Vous êtes sur la liste d\'attente ! À très vite.');
+    }
+
+    // SMOOTH SCROLL
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
